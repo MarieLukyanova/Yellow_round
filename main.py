@@ -2,13 +2,20 @@ import sys
 from random import randint
 
 from PyQt5.QtGui import QPainter, QColor
-from PyQt5.QtWidgets import QApplication, QMainWindow
-from PyQt5 import uic
+from PyQt5.QtWidgets import QApplication, QMainWindow, QPushButton
+
 
 class Example(QMainWindow):
     def __init__(self):
         super().__init__()
-        uic.loadUi('UI.ui', self)
+        self.initUI()
+
+    def initUI(self):
+        self.setGeometry(300, 300, 600, 600)
+        self.setWindowTitle('Желтые окружности')
+        self.btn = QPushButton('Новая \n окружнось', self)
+        self.btn.resize(140, 60)
+        self.btn.move(230, 270)
         self.btn.clicked.connect(self.run)
         self.do_paint = False
 
@@ -24,9 +31,10 @@ class Example(QMainWindow):
             qp.end()
 
     def draw_round(self, qp):
-        qp.setBrush(QColor(227, 220, 30))
-        r = randint(140, 400)
-        qp.drawEllipse((600 - r) // 2, (600 - r) // 2, r, r)
+        rgb = [randint(0, 255) for _ in range(3)]
+        rad = randint(140, 400)
+        qp.setBrush(QColor(rgb[0], rgb[1], rgb[2]))
+        qp.drawEllipse((600 - rad) // 2, (600 - rad) // 2, rad, rad)
 
 
 if __name__ == '__main__':
